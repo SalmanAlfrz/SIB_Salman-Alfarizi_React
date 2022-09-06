@@ -18,7 +18,8 @@ import {
     useColorMode,
     Center,
     Image,
-    Text
+    Text,
+    Heading
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
@@ -118,17 +119,8 @@ export default function Navbar() {
                     </Box>
                 ) : null}
             </Box>
-
-            <Box p={4} m={4} pl={8} pr={8} borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                <HStack>
-                    <Image src='https://bit.ly/dan-abramov' alt='Dan Abramov' />
-                    <Stack>
-                        <Text fontSize='2xl'>
-                            <b>Hacktiv8 Meetup</b>
-                        </Text>
-                    </Stack>
-                </HStack>
-            </Box>
+            
+            
         </>
     );
 }
