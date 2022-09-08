@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-
+import Navbar from '../Components/Navbar';
 const Links = ['Dashboard', 'Projects', 'Team'];
 
 const NavLink = ({ children, to }) => (
@@ -46,6 +46,7 @@ export default function Home() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>
+            <Navbar />
             <Box p={4} m={4} pl={8} pr={8} borderWidth='1px' shadow='md' overflow='hidden'>
                 <HStack spacing={5}>
                     <Image boxSize='250px' src='https://bit.ly/dan-abramov' alt='Dan Abramov' />
@@ -72,7 +73,7 @@ export default function Home() {
             <Text pl={4} pt={4} fontSize='2xl'>
                 <b>Next Meetup</b>
             </Text>
-            <Box p={4} ml={10}  mb={4} mt={4} mr={10} pl={8} pr={8} shadow='md' borderWidth='1px'>
+            <Box p={4} ml={10} mb={4} mt={4} mr={10} pl={8} pr={8} shadow='md' borderWidth='1px'>
                 <Heading fontSize='lg'>Awesome meetup and event!</Heading>
                 <Text mt={4}>
                     25 January 2019

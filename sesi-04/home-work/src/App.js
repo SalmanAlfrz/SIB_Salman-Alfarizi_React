@@ -1,24 +1,26 @@
 import React from 'react';
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
-import Navbar from './Components/Navbar';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import Home from './Pages/Home';
+import Login from './Pages/Login';
+
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Navbar/>
-      <Home/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/" element={<Home />}></Route>
+        </Routes>
+      </BrowserRouter>
     </ChakraProvider>
   );
 }
