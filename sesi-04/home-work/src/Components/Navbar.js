@@ -2,24 +2,14 @@ import { ReactNode } from 'react';
 import {
     Box,
     Flex,
-    Avatar,
     HStack,
     Link,
     IconButton,
     Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
     useDisclosure,
     useColorModeValue,
     Stack,
-    useColorMode,
-    Center,
-    Image,
-    Text,
-    Heading
+    useColorMode
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
