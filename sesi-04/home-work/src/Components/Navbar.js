@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Box,
     Flex,
@@ -11,12 +11,13 @@ import {
     Stack,
     useColorMode
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import {useLocation} from 'react-router-dom'
 
 const Links = ['Dashboard', 'Projects', 'Team'];
 
-const NavLink = ({ children, to}) => (
+const NavLink = ({ children, to, bg}) => (
     <Link
         px={2}
         py={1}
@@ -25,14 +26,21 @@ const NavLink = ({ children, to}) => (
             textDecoration: 'none',
             bg: useColorModeValue('gray.200', 'gray.700'),
         }}
-        href={to}>
+        href={to} background={bg}>
         {children}
     </Link>
 );
 
 export default function Navbar() {
+    const [isRedirect, setRedirect] = useState()
+    const location = useLocation()
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    // useEffect(()=>{
+    //     setRedirect(location.pathname)
+    // }, [location])
+    // const isActiveLogin = isRedirect === '/login' ? "gray.700":""
 
     return (
         <>
@@ -57,7 +65,7 @@ export default function Navbar() {
                     </HStack>
                     <Flex alignItems={'center'}>
                         <HStack spacing={4}>
-                            <NavLink to='login'>Login</NavLink>
+                            <NavLink to='login'  >Login</NavLink> {/** background={isActiveLogin} */}
                             {/* <Menu>
                                 <MenuButton
                                 as={Button}
