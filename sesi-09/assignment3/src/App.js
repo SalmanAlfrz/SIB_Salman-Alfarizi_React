@@ -1,67 +1,98 @@
-import './App.css';
-import { Flowbite, Sidebar, DarkThemeToggle } from 'flowbite-react';
-import { HiChartPie, HiViewBoards, HiInbox, HiUser, HiShoppingBag, HiArrowSmRight, HiTable } from 'react-icons/hi';
+import * as React from 'react';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { amber, deepOrange, grey } from '@mui/material/colors';
+import Drawer from './components/Drawer';
+
+const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+
+const getDesignTokens = (mode) => ({
+  palette: {
+    mode,
+    ...(mode === 'light'
+      ? {
+          // palette values for light mode
+          primary: amber,
+          text: {
+            primary: grey[900],
+            secondary: grey[800],
+          },
+        }
+      : {
+          // palette values for dark mode
+          primary: deepOrange,
+          divider: deepOrange[700],
+          background: {
+            default: deepOrange[900],
+            paper: deepOrange[700],
+          },
+          text: {
+            primary: '#fff',
+            secondary: grey[500],
+          },
+        }),
+  },
+});
+
+
+
 function App() {
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
   return (
     <>
-      <Flowbite>
-        <DarkThemeToggle />
-      </Flowbite>
-      <div className="w-fit bg-gray-50">
-        <Sidebar aria-label="Default sidebar example">
-          <Sidebar.Items>
-            <Sidebar.ItemGroup>
-              <Sidebar.Item
-                href="#"
-                icon={HiChartPie}
-              >
-                Dashboard
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="#"
-                icon={HiViewBoards}
-                label="Pro"
-                labelColor="alternative"
-              >
-                Kanban
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="#"
-                icon={HiInbox}
-                label="3"
-              >
-                Inbox
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="#"
-                icon={HiUser}
-              >
-                Users
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="#"
-                icon={HiShoppingBag}
-              >
-                Products
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="#"
-                icon={HiArrowSmRight}
-              >
-                Sign In
-              </Sidebar.Item>
-              <Sidebar.Item
-                href="#"
-                icon={HiTable}
-              >
-                Sign Up
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-          </Sidebar.Items>
-        </Sidebar>
-      </div>
+      <Drawer />
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          bgcolor: 'background.default',
+          color: 'text.primary',
+          borderRadius: 1,
+          p: 3,
+        }}
+      >
+        {theme.palette.mode} mode
+        <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+          {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+      </Box>
     </>
   );
 }
 
-export default App;
+export default function ToggleColorMode() {
+  const [mode, setMode] = React.useState('light');
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
+
+  // const theme = React.useMemo(
+  //   () =>
+  //     createTheme({
+  //       palette: {
+  //         mode,
+  //       },
+  //     }),
+  //   [mode],
+  // );
+  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
+}
