@@ -1,98 +1,47 @@
-import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
-import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { amber, deepOrange, grey } from '@mui/material/colors';
-import Drawer from './components/Drawer';
+import React from "react";
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+import { BrowserRouter } from "react-router-dom";
+import { MainLayout } from "./layouts";
+import { themeL, themeD } from "./themes";
+import { mainNavigation, mainRoutes } from "./data";
+import { RoutesWithLayout } from "./components";
 
-const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+const App = () => {
+  const [darkMode, setDarkMode] = React.useState(() => {
+    const dark = localStorage.getItem("dark");
+    if (dark) {
+      return JSON.parse(dark);
+    } else {
+      return false;
+    }
+  });
 
-const getDesignTokens = (mode) => ({
-  palette: {
-    mode,
-    ...(mode === 'light'
-      ? {
-          // palette values for light mode
-          primary: amber,
-          text: {
-            primary: grey[900],
-            secondary: grey[800],
-          },
-        }
-      : {
-          // palette values for dark mode
-          primary: deepOrange,
-          divider: deepOrange[700],
-          background: {
-            default: deepOrange[900],
-            paper: deepOrange[700],
-          },
-          text: {
-            primary: '#fff',
-            secondary: grey[500],
-          },
-        }),
-  },
-});
+  const darkModeToggle = () => {
+    setDarkMode(!darkMode);
+    localStorage.setItem("dark", !darkMode);
+  };
 
+  const themeSwitchCofig = {
+    state: darkMode,
+    handler: darkModeToggle,
+  };
 
-
-function App() {
-  const theme = useTheme();
-  const colorMode = React.useContext(ColorModeContext);
+  const appliedTheme = createMuiTheme(darkMode ? themeD : themeL);
   return (
-    <>
-      <Drawer />
-      <Box
-        sx={{
-          display: 'flex',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          bgcolor: 'background.default',
-          color: 'text.primary',
-          borderRadius: 1,
-          p: 3,
-        }}
-      >
-        {theme.palette.mode} mode
-        <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-          {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-        </IconButton>
-      </Box>
-    </>
-  );
-}
-
-export default function ToggleColorMode() {
-  const [mode, setMode] = React.useState('light');
-  const colorMode = React.useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-      },
-    }),
-    [],
-  );
-
-  // const theme = React.useMemo(
-  //   () =>
-  //     createTheme({
-  //       palette: {
-  //         mode,
-  //       },
-  //     }),
-  //   [mode],
-  // );
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <App />
+    <BrowserRouter>
+      <ThemeProvider theme={appliedTheme}>
+        <RoutesWithLayout
+          layout={MainLayout}
+          routes={mainRoutes}
+          LayoutProps={{
+            navigationData: mainNavigation,
+            themeConfig: themeSwitchCofig,
+          }}
+        />
       </ThemeProvider>
-    </ColorModeContext.Provider>
+    </BrowserRouter>
   );
-}
+};
+
+export default App;
