@@ -1,4 +1,4 @@
-export default function Users(props) {
+export default function UsersSSR(props) {
     return (
         <table>
             <thead>
