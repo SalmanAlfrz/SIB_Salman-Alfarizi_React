@@ -1,0 +1,10 @@
+1. install expo 
+2. npm install -g eas-cli
+3. npm install -g sharp-cli
+4. https://adb.clockworkmod.com/
+5. setup avd (android studio)
+6. install react native (npx create-expo-app my-app)
+
+https://docs.expo.dev/
+https://reactnative.dev/
+https://snack.expo.dev/
